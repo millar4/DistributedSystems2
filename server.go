@@ -5,6 +5,7 @@ import (
 	"flag"
 	"fmt"
 	"net"
+	"strings"
 )
 
 type Message struct {
@@ -87,7 +88,7 @@ func main() {
 		case msg := <-msgs:
 			for i, client := range clients {
 				if msg.sender != i {
-					fmt.Fprintf(client, "\n%s", msg.message)
+					fmt.Fprintf(client, "%s\n", strings.TrimSpace(msg.message))
 				}
 			}
 		}

@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"net"
 	"os"
+	"strings"
 )
 
 func handleError(err error) {
@@ -21,7 +22,10 @@ func read(conn net.Conn) {
 			handleError(err)
 			return
 		}
-		fmt.Println(msg)
+		fmt.Print("\r\033[K")
+		fmt.Println(strings.TrimSpace(msg))
+		fmt.Print("Enter text -> ")
+
 	}
 }
 
@@ -37,6 +41,7 @@ func write(conn net.Conn) {
 		if msg == "/quit\n" {
 			break
 		}
+		msg = strings.TrimSpace(msg)
 		fmt.Fprintln(conn, msg)
 	}
 	//TODO Continually get input from the user and send messages to the server.
